@@ -1,0 +1,38 @@
+  long long maximumSum(int n, int k) {
+        // code here
+        int mod = n;
+       vector<bool> isprime(mod+1, 1);
+
+
+          isprime[1] = 0;
+         for (int i = 2; i * i <= mod; i++)
+         {
+            if (isprime[i] == 1)
+            {
+                for (int j = 2 * i; j <= mod; j += i)
+                {
+                  isprime[j] = 0;
+                }
+            }
+         }
+
+        long long final=0;
+        if(n%2==0)
+        {
+            n--;
+        }
+        for(int i=n;i>=0;i-=2)
+        {
+            if(isprime[i] == 0)
+            {
+                final+=i;
+                k--;
+            }
+            if(k==0)
+            {
+                return final;
+            }
+        }
+        return -1;
+        
+    }
