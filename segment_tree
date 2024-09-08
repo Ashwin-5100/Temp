@@ -1,0 +1,56 @@
+
+vector<ll> segTree;
+
+ll merge(ll a, ll b)
+{
+    return (a+b);
+} 
+
+void build(vector<int> &v, ll start, ll end, ll index)
+{
+    if(start == end)
+    {
+        segTree[index] = v[start];
+        return; 
+    }   
+    ll mid = (start + end) /2;
+    build(v, start, mid, index*2);
+    build(v, mid+1, end, index*2+1);
+    segTree[index] = merge(segTree[index*2] , segTree[index*2+1]);
+}
+void update(vector<int> &v, ll start, ll end, ll index, ll pos, ll val)
+{
+    if(start == end)
+    {
+        v[pos] = val;
+        segTree[index] = v[pos];
+        return;
+    }
+    int mid = (start + end)/2;
+    if(pos <= mid)
+    {
+        update(v, start, mid, index*2, pos, val);
+    }
+    else
+    {
+        update(v, mid+1, end, index*2+1, pos, val);
+    }
+     
+     segTree[index] = merge(segTree[index*2] , segTree[index*2+1]);
+}
+
+ ll query(ll start, ll end, ll index, ll l ,ll r)
+{
+    if(start >= l && end <= r)
+    {
+        return segTree[index];
+    }
+    if(end < l || r < start)
+    {
+        return 0;
+    }
+    ll mid = (start+end)/2;
+    ll leftans = query(start, mid, index*2, l, r);
+    ll rightans = query(mid+1, end, index*2+1, l, r);
+    return merge(leftans , rightans);
+}
