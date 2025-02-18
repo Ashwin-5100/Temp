@@ -33,20 +33,44 @@ class Solution {
     
     bool isCyclic(vector<vector<int>> &adj) {
         // code here
-        int n = adj.size();
-        vector<int> vis(n,0);
-        vector<int> path(n,0);
+       int n = adj.size();
+        vector<int> ans;
+        vector<int> indegree(n,0);
         for(int i=0;i<n;i++)
         {
-            if(!vis[i])
+            for(auto j:adj[i])
             {
-                if(dfs(i, adj, vis, path))
+                indegree[j]++;
+            }
+        }
+        
+        vector<int> vis(n,0);
+        queue<int> q;
+        for(int i=0;i<n;i++)
+        {
+            if(indegree[i] == 0)
+            {
+                q.push(i);
+            }
+        }
+        while(!q.empty())
+        {
+            int front  = q.front();
+            q.pop();
+            ans.push_back(front);
+            for(auto x:adj[front]){
+                indegree[x]--;
+                if(indegree[x]==0)
                 {
-                    return 1;
+                    q.push(x);
                 }
             }
         }
-        return 0;
+        if(ans.size() == n)
+        {
+            return 0;
+        }
+        return 1;
     }
 };
 
