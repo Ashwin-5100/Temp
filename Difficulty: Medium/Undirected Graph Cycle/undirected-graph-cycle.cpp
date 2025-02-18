@@ -38,10 +38,10 @@ class Solution {
     bool isCycle(vector<vector<int>>& adj) {
         // Code here
         int n = adj.size();
-        vector<int> vis(n);
+        vector<int> vis(n, 0);
         for(int i=0;i<n;i++)
         {
-            if(vis[i] == 0)
+            if(!vis[i])
             {
                 
                 if(bfs(i, adj, vis))
