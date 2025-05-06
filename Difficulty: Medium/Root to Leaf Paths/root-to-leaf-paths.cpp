@@ -115,6 +115,7 @@ class Matrix {
 
 
 // } Driver Code Ends
+
 /*
 
 Definition for Binary Tree Node
@@ -133,52 +134,33 @@ struct Node
 
 class Solution {
   public:
-    bool isleaf(Node *root)
-    {
-        if(root->left == NULL && root->right==NULL)
-        {
-            return 1;
-        }
-        return 0;
-    }
     void dfs(Node *root, vector<vector<int>> &ans, vector<int> &temp)
     {
         if(root == NULL)
         {
             return;
         }
-        if(isleaf(root))
+         temp.push_back(root->data);
+        if(root->left == NULL && root->right == NULL)
         {
-            temp.push_back(root->data);
             ans.push_back(temp);
-            temp.pop_back();
         }
-        if(root->left !=NULL)
-        {
-            temp.push_back(root->data);
+        else {
+           
             dfs(root->left, ans, temp);
-            temp.pop_back();
-        }
-        
-        if(root->right !=NULL)
-        {
-            temp.push_back(root->data);
             dfs(root->right, ans, temp);
-            temp.pop_back();
         }
+           temp.pop_back();
     }
     vector<vector<int>> Paths(Node* root) {
         // code here
         vector<vector<int>> ans;
-        if(root == NULL)
-        {
-            return ans;
-        }
         vector<int> temp;
         dfs(root, ans, temp);
         return ans;
     }
 };
+
 
 
 //{ Driver Code Starts.
